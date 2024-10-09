@@ -12,6 +12,8 @@ def analyze_sales_data(data):
 
 # Function to plot sales data using Plotly
 def plot_sales_data(total_sales_by_month):
+    # Ensure the 'Month' column is treated as a categorical variable for better plotting
+    total_sales_by_month['Month'] = total_sales_by_month['Month'].astype(str)
     fig = px.line(total_sales_by_month, x='Month', y='Sales', title='Sales Trend by Month', markers=True)
     st.plotly_chart(fig)
 
@@ -43,8 +45,9 @@ if uploaded_file is not None:
 
         # Check if the required columns are present
         if all(col in sales_data.columns for col in required_columns):
-            # Analyze the sales data
-            total_sales_by_month, average_sales, total_sales_by_year = analyze_sales_data(sales_data)
+            # Use the spinner during the analysis process
+            with st.spinner("Analyzing data..."):
+                total_sales_by_month, average_sales, total_sales_by_year = analyze_sales_data(sales_data)
 
             col1, col2 = st.columns(2)
 
@@ -65,8 +68,6 @@ if uploaded_file is not None:
             with st.expander("See Raw Data"):
                 st.dataframe(sales_data)
 
-            with st.spinner("Analyzing data..."):
-                time.sleep(2)  # Simulate a long computation
             st.success("Analysis complete!")
         else:
             # Display a warning if the required columns are missing
