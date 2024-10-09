@@ -18,7 +18,7 @@ def plot_sales_data(total_sales_by_month):
     st.plotly_chart(fig)
 
 # Streamlit app layout
-st.image("logo.png", use_column_width=True)
+st.image("logo.PNG", use_column_width=True)
 # Add custom CSS for logo styling
 st.markdown("""
     <style>
